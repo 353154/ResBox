@@ -160,7 +160,7 @@ object BuiltinShowcaseData {
             vodActor = "提莫西·查拉梅, 赞达亚, 丽贝卡·弗格森, 哈维尔·巴登",
             vodDirector = "丹尼斯·维伦纽瓦",
             vodContent = "保罗·厄崔迪与契妮和弗雷曼人联手，对毁灭他家族的阴谋者展开复仇。在挚爱与已知宇宙命运的抉择面前，他努力阻止只有他能预见的可怕未来。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$量子秒播$$$非凡蓝光",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$量子秒播\$\$\$非凡蓝光",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 3, isMovie = true),
             typeName = "科幻动作",
             vodScore = "8.9"
@@ -175,7 +175,7 @@ object BuiltinShowcaseData {
             vodActor = "基里安·墨菲, 艾米莉·布朗特, 马特·达蒙, 小罗伯特·唐尼",
             vodDirector = "克里斯托弗·诺兰",
             vodContent = "聚焦基里安·墨菲饰演的“原子弹之父”罗伯特·奥本海默，讲述他在二战期间领导曼哈顿计划研发核武器，以及战后听证会上的道德与政治风暴。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$量子秒播",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$量子秒播",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 2, isMovie = true),
             typeName = "4K 电影",
             vodScore = "8.8"
@@ -190,7 +190,7 @@ object BuiltinShowcaseData {
             vodActor = "范伟, 秦昊, 陈明昊, 李庚希, 刘奕铁",
             vodDirector = "辛爽",
             vodContent = "小城桦林，出租车司机王响、妹夫龚彪与老刑警马德胜跨越十八年的命运交织，在秋日玉米地与钢厂往事中追寻真相与和解。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$量子秒播$$$非凡蓝光",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$量子秒播\$\$\$非凡蓝光",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 12, isMovie = false),
             typeName = "热播剧集",
             vodScore = "9.4"
@@ -205,7 +205,7 @@ object BuiltinShowcaseData {
             vodActor = "马修·麦康纳, 安妮·海瑟薇, 杰西卡·查斯坦",
             vodDirector = "克里斯托弗·诺兰",
             vodContent = "在不远的未来，地球黄沙遍野，农作物相继枯萎。前NASA宇航员库珀穿越土星附近的虫洞，跨越五维时空为人类寻找新家园。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$非凡蓝光",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$非凡蓝光",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 2, isMovie = true),
             typeName = "科幻动作",
             vodScore = "9.4"
@@ -220,7 +220,7 @@ object BuiltinShowcaseData {
             vodActor = "胡歌, 马伊琍, 唐嫣, 辛芷蕾, 游本昌",
             vodDirector = "王家卫",
             vodContent = "九十年代的上海黄河路霓虹闪烁，青年阿宝在爷叔指点下蜕变为宝总，在资本浪潮与时代变迁中书写一段海派传奇。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$量子秒播",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$量子秒播",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 30, isMovie = false),
             typeName = "热播剧集",
             vodScore = "8.7"
@@ -235,7 +235,7 @@ object BuiltinShowcaseData {
             vodActor = "大卫·爱登堡",
             vodDirector = "BBC Studios",
             vodContent = "大卫·爱登堡爵士再次带我们深入地球最壮丽的角落，以8K微距与高速摄影揭开海洋、荒漠、雨林与人类世共生的生命奇迹。",
-            vodPlayFrom = "玩偶4K原盘$$$非凡蓝光",
+            vodPlayFrom = "玩偶4K原盘\$\$\$非凡蓝光",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 8, isMovie = false),
             typeName = "高分纪录",
             vodScore = "9.7"
@@ -250,7 +250,7 @@ object BuiltinShowcaseData {
             vodActor = "夏一可, 图特哈蒙, 藤新",
             vodDirector = "董相博",
             vodContent = "灯塔坠落之后，白月魁与猎荒者小队深入地面玛娜生态腹地，揭开旧世界基因工程与人类进化终极秘密。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$量子秒播",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$量子秒播",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 64, isMovie = false),
             typeName = "国漫番剧",
             vodScore = "9.1"
@@ -265,7 +265,7 @@ object BuiltinShowcaseData {
             vodActor = "瑞恩·高斯林, 哈里森·福特, 安娜·德·阿玛斯",
             vodDirector = "丹尼斯·维伦纽瓦",
             vodContent = "新一代银翼杀手 K 在执行猎杀任务时意外发现一段尘封三十年的复制人奇迹，踏上寻找前代银翼杀手瑞克·戴克之旅。",
-            vodPlayFrom = "玩偶4K原盘$$$极速云HDR$$$量子秒播$$$非凡蓝光",
+            vodPlayFrom = "玩偶4K原盘\$\$\$极速云HDR\$\$\$量子秒播\$\$\$非凡蓝光",
             vodPlayUrl = buildMultiSourcePlayUrl(episodeCount = 2, isMovie = true),
             typeName = "4K 电影",
             vodScore = "8.5"
@@ -286,21 +286,21 @@ object BuiltinShowcaseData {
             } else {
                 "第%02d集".format(ep)
             }
-            "$label$$streamA"
+            "$label\$$streamA"
         }
         val group2 = (1..episodeCount).joinToString("#") { ep ->
             val label = if (isMovie) "极速HDR正片$ep" else "第%02d集".format(ep)
-            "$label$$streamB"
+            "$label\$$streamB"
         }
         val group3 = (1..episodeCount).joinToString("#") { ep ->
             val label = if (isMovie) "秒播1080P-$ep" else "第%02d集".format(ep)
-            "$label$$streamA"
+            "$label\$$streamA"
         }
         val group4 = (1..episodeCount).joinToString("#") { ep ->
             val label = if (isMovie) "蓝光专线-$ep" else "第%02d集".format(ep)
-            "$label$$streamB"
+            "$label\$$streamB"
         }
-        return listOf(group1, group2, group3, group4).joinToString("$$$")
+        return listOf(group1, group2, group3, group4).joinToString("\$\$\$")
     }
 
     fun getHomePayload(site: SiteBean): VodResponsePayload {

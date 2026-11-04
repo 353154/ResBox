@@ -219,7 +219,7 @@ object ConfigDecryptor {
 
         // Remove trailing commas like `, }` or `, ]`
         return sb.toString()
-            .replace(Regex(",\s*([}\]])"), "$1")
+            .replace(Regex(""",\s*([}\]])"""), "$1")
             .trim()
     }
 
