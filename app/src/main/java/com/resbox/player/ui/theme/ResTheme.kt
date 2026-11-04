@@ -366,6 +366,10 @@ fun Modifier.tvInteractiveItem(
     var isFocused by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(
         targetValue = if (isFocused) scaleOnFocus else 1.0f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessMediumLow
+        ),
         label = "TvItemScale"
     )
 
@@ -377,19 +381,31 @@ fun Modifier.tvInteractiveItem(
                 onFocusChanged?.invoke(state.isFocused)
             }
         }
+        .then(
+            if (isFocused) {
+                Modifier.shadow(
+                    elevation = 14.dp,
+                    shape = shape,
+                    ambientColor = ResColors.FocusCyan,
+                    spotColor = ResColors.FocusCyan
+                )
+            } else Modifier
+        )
         .border(
-            width = if (isFocused) 2.5.dp else if (isSelected) 1.5.dp else 1.dp,
-            color = if (isFocused) ResColors.FocusCyan
-                    else if (isSelected) ResColors.PrimaryViolet.copy(alpha = 0.85f)
-                    else Color.White.copy(alpha = 0.12f),
+            width = if (isFocused) 2.5.dp else if (isSelected) 1.dp else 0.8.dp,
+            color = when {
+                isFocused -> ResColors.FocusCyan
+                isSelected -> Color(0x55FFFFFF)
+                else -> Color.White.copy(alpha = 0.08f)
+            },
             shape = shape
         )
         .clip(shape)
         .background(
             color = when {
-                isFocused -> ResColors.PrimaryViolet.copy(alpha = 0.6f)
-                isSelected -> ResColors.PrimaryViolet.copy(alpha = 0.35f)
-                else -> Color(0x77161E32)
+                isFocused -> Color(0x33101828)
+                isSelected -> Color(0x287C5CFF)
+                else -> Color(0x550E1424)
             },
             shape = shape
         )

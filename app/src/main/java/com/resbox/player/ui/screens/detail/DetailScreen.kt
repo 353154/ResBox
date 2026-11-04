@@ -312,7 +312,10 @@ fun DetailScreen(
                         color = Color.White
                     )
 
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(14.dp),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
                         itemsIndexed(uiState.playSources) { idx, source ->
                             val isSelected = idx == uiState.selectedSourceIndex
                             val latencyLabel = if (source.latencyMs > 0L) " • ${source.latencyMs}ms" else ""

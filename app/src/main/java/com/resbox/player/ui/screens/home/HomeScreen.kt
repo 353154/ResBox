@@ -117,7 +117,12 @@ fun HomeScreen(
                                 .tvInteractiveItem(
                                     shape = RoundedCornerShape(50),
                                     isSelected = selected,
-                                    onClick = { onSelectCategory(category.typeId) }
+                                    onClick = { onSelectCategory(category.typeId) },
+                                    onFocusChanged = { focused ->
+                                        if (focused && !selected) {
+                                            onSelectCategory(category.typeId)
+                                        }
+                                    }
                                 )
                                 .padding(horizontal = 18.dp, vertical = 9.dp)
                         ) {
@@ -185,18 +190,18 @@ private fun HomeTopFrostedHeader(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(horizontal = 22.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             // Left: Active Spider Site Switcher Pill
             Box {
                 Row(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(50))
-                        .background(ResColors.PrimaryViolet.copy(alpha = 0.25f))
-                        .border(1.dp, ResColors.PrimaryViolet.copy(alpha = 0.7f), RoundedCornerShape(50))
-                        .clickable { showSiteMenu = true }
+                        .tvInteractiveItem(
+                            shape = RoundedCornerShape(50),
+                            onClick = { showSiteMenu = true }
+                        )
                         .padding(horizontal = 14.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -238,11 +243,10 @@ private fun HomeTopFrostedHeader(
             Row(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(horizontal = 12.dp)
-                    .clip(RoundedCornerShape(50))
-                    .background(Color(0x66101524))
-                    .border(1.dp, Color.White.copy(alpha = 0.12f), RoundedCornerShape(50))
-                    .clickable(onClick = onOpenSearch)
+                    .tvInteractiveItem(
+                        shape = RoundedCornerShape(50),
+                        onClick = onOpenSearch
+                    )
                     .padding(horizontal = 16.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -262,7 +266,14 @@ private fun HomeTopFrostedHeader(
             }
 
             // Right: Refresh Button
-            IconButton(onClick = onRefresh) {
+            Box(
+                modifier = Modifier
+                    .tvInteractiveItem(
+                        shape = RoundedCornerShape(50),
+                        onClick = onRefresh
+                    )
+                    .padding(8.dp)
+            ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "刷新首页",

@@ -43,6 +43,7 @@ import com.resbox.player.ui.theme.LocalIsTvDevice
 import com.resbox.player.ui.theme.MeshGradientBackground
 import com.resbox.player.ui.theme.ResColors
 import com.resbox.player.ui.theme.resCardSurface
+import com.resbox.player.ui.theme.tvInteractiveItem
 
 @UnstableApi
 @Composable
@@ -136,14 +137,32 @@ private fun LiveChannelListPanel(
                 color = Color.White
             )
 
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
+            ) {
                 itemsIndexed(uiState.groups) { idx, group ->
                     val selected = idx == uiState.selectedGroupIndex
-                    ResPillBadge(
-                        text = group.group,
-                        backgroundColor = if (selected) ResColors.PrimaryViolet else Color(0x881A2238),
-                        modifier = Modifier.clickable { onSelectGroup(idx) }
-                    )
+                    Box(
+                        modifier = Modifier
+                            .tvInteractiveItem(
+                                shape = RoundedCornerShape(50),
+                                isSelected = selected,
+                                onClick = { onSelectGroup(idx) },
+                                onFocusChanged = { focused ->
+                                    if (focused && !selected) {
+                                        onSelectGroup(idx)
+                                    }
+                                }
+                            )
+                            .padding(horizontal = 14.dp, vertical = 7.dp)
+                    ) {
+                        Text(
+                            text = group.group,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = if (selected) Color.White else ResColors.TextSecondary
+                        )
+                    }
                 }
             }
 
@@ -157,13 +176,11 @@ private fun LiveChannelListPanel(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .resCardSurface(shape = RoundedCornerShape(16.dp))
-                            .border(
-                                width = if (isCurrent) 2.dp else 1.dp,
-                                color = if (isCurrent) ResColors.FocusCyan else Color.White.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(16.dp)
+                            .tvInteractiveItem(
+                                shape = RoundedCornerShape(16.dp),
+                                isSelected = isCurrent,
+                                onClick = { onSelectChannel(ch, 0) }
                             )
-                            .clickable { onSelectChannel(ch, 0) }
                             .padding(horizontal = 16.dp, vertical = 12.dp)
                     ) {
                         Row(
@@ -178,8 +195,8 @@ private fun LiveChannelListPanel(
                             )
                             ResPillBadge(
                                 text = "${ch.urls.size} 源",
-                                backgroundColor = if (isCurrent) ResColors.EmeraldScoreBadge else Color(0x88242E4C),
-                                contentColor = if (isCurrent) Color(0xFF0A1214) else ResColors.FocusCyan
+                                backgroundColor = if (isCurrent) ResColors.FocusCyan.copy(alpha = 0.25f) else Color(0x44242E4C),
+                                contentColor = if (isCurrent) ResColors.FocusCyan else ResColors.TextSecondary
                             )
                         }
                     }

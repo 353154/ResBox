@@ -43,11 +43,13 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -106,6 +108,13 @@ fun VideoPlayerScreen(
         }
     }
 
+    LaunchedEffect(showOsdControls) {
+        if (showOsdControls) {
+            delay(6000L)
+            showOsdControls = false
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -113,31 +122,51 @@ fun VideoPlayerScreen(
             // D-Pad & TV Remote Numeric Keypad Handler
             .onKeyEvent { event ->
                 if (event.nativeKeyEvent.action == KeyEvent.ACTION_DOWN) {
-                    when (val keyCode = event.nativeKeyEvent.keyCode) {
-                        KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
-                            showOsdControls = true
-                            onTogglePlayPause()
-                            true
+                    val keyCode = event.nativeKeyEvent.keyCode
+                    if (showOsdControls) {
+                        when (keyCode) {
+                            KeyEvent.KEYCODE_BACK -> {
+                                showOsdControls = false
+                                true
+                            }
+                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
+                                onTogglePlayPause()
+                                true
+                            }
+                            in KeyEvent.KEYCODE_0..KeyEvent.KEYCODE_9 -> {
+                                onTvNumericDigit(keyCode - KeyEvent.KEYCODE_0)
+                                true
+                            }
+                            else -> false
                         }
-                        KeyEvent.KEYCODE_DPAD_RIGHT -> {
-                            showOsdControls = true
-                            onSeekByDelta(10_000L)
-                            true
+                    } else {
+                        when (keyCode) {
+                            KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
+                                showOsdControls = true
+                                true
+                            }
+                            KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN -> {
+                                showOsdControls = true
+                                true
+                            }
+                            KeyEvent.KEYCODE_DPAD_RIGHT -> {
+                                onSeekByDelta(10_000L)
+                                true
+                            }
+                            KeyEvent.KEYCODE_DPAD_LEFT -> {
+                                onSeekByDelta(-10_000L)
+                                true
+                            }
+                            KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
+                                onTogglePlayPause()
+                                true
+                            }
+                            in KeyEvent.KEYCODE_0..KeyEvent.KEYCODE_9 -> {
+                                onTvNumericDigit(keyCode - KeyEvent.KEYCODE_0)
+                                true
+                            }
+                            else -> false
                         }
-                        KeyEvent.KEYCODE_DPAD_LEFT -> {
-                            showOsdControls = true
-                            onSeekByDelta(-10_000L)
-                            true
-                        }
-                        KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN -> {
-                            showOsdControls = !showOsdControls
-                            true
-                        }
-                        in KeyEvent.KEYCODE_0..KeyEvent.KEYCODE_9 -> {
-                            onTvNumericDigit(keyCode - KeyEvent.KEYCODE_0)
-                            true
-                        }
-                        else -> false
                     }
                 } else {
                     false
@@ -290,8 +319,18 @@ fun VideoPlayerScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            IconButton(onClick = onBack) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .tvInteractiveItem(
+                                        shape = RoundedCornerShape(50),
+                                        onClick = onBack
+                                    )
+                                    .padding(8.dp)
+                            ) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "返回",
@@ -307,7 +346,7 @@ fun VideoPlayerScreen(
                                 Text(
                                     text = "当前线路: ${uiState.currentSource?.flag.orEmpty()} | ${uiState.kernelType.displayName}",
                                     style = MaterialTheme.typography.labelMedium,
-                                    color = ResColors.FocusCyan
+                                    color = ResColors.TextSecondary
                                 )
                             }
                         }
@@ -316,15 +355,24 @@ fun VideoPlayerScreen(
                             if (uiState.filteredAdSegmentsCount > 0) {
                                 ResPillBadge(
                                     text = "已净网过滤 ${uiState.filteredAdSegmentsCount} 广告切片",
-                                    backgroundColor = ResColors.EmeraldScoreBadge,
-                                    contentColor = Color(0xFF0A1214)
+                                    backgroundColor = Color(0x3328D89A),
+                                    contentColor = ResColors.EmeraldScoreBadge
                                 )
                             }
-                            ResPillBadge(
-                                text = "⚡ 秒换最快源",
-                                backgroundColor = ResColors.PrimaryViolet,
-                                modifier = Modifier.clickable { onTriggerFastFailover() }
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .tvInteractiveItem(
+                                        shape = RoundedCornerShape(50),
+                                        onClick = { onTriggerFastFailover() }
+                                    )
+                                    .padding(horizontal = 14.dp, vertical = 7.dp)
+                            ) {
+                                Text(
+                                    text = "⚡ 秒换最快源",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                 }
@@ -381,14 +429,28 @@ fun VideoPlayerScreen(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
-                                IconButton(onClick = onTogglePlayPause) {
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = onTogglePlayPause
+                                        )
+                                        .padding(8.dp)
+                                ) {
                                     Icon(
                                         imageVector = if (uiState.isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
                                         contentDescription = "播放/暂停",
                                         tint = Color.White
                                     )
                                 }
-                                IconButton(onClick = onPlayNextEpisode) {
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = onPlayNextEpisode
+                                        )
+                                        .padding(8.dp)
+                                ) {
                                     Icon(
                                         imageVector = Icons.Default.SkipNext,
                                         contentDescription = "下一集",
@@ -497,7 +559,10 @@ fun VideoPlayerScreen(
                         // Quick Episode Switcher Strip inside OSD
                         val episodes = uiState.currentSource?.episodes.orEmpty()
                         if (episodes.size > 1) {
-                            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                contentPadding = PaddingValues(horizontal = 6.dp, vertical = 6.dp)
+                            ) {
                                 itemsIndexed(episodes) { epIdx, ep ->
                                     val active = epIdx == uiState.activeEpisodeIndex
                                     Box(

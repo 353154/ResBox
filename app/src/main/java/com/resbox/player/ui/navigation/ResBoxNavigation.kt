@@ -397,6 +397,7 @@ private fun TvCollapsibleNavigationDrawer(
 
             TopLevelDestination.entries.forEach { dest ->
                 val selected = dest.route == currentRoute
+                var isItemFocused by remember { mutableStateOf(false) }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -404,7 +405,13 @@ private fun TvCollapsibleNavigationDrawer(
                             shape = RoundedCornerShape(16.dp),
                             isSelected = selected,
                             scaleOnFocus = 1.04f,
-                            onClick = { onNavigate(dest) }
+                            onClick = { onNavigate(dest) },
+                            onFocusChanged = { focused ->
+                                isItemFocused = focused
+                                if (focused && !selected) {
+                                    onNavigate(dest)
+                                }
+                            }
                         )
                         .padding(horizontal = 12.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -413,13 +420,21 @@ private fun TvCollapsibleNavigationDrawer(
                     Icon(
                         imageVector = dest.icon,
                         contentDescription = dest.label,
-                        tint = if (selected) ResColors.FocusCyan else ResColors.TextSecondary
+                        tint = when {
+                            isItemFocused -> ResColors.FocusCyan
+                            selected -> Color.White
+                            else -> ResColors.TextSecondary
+                        }
                     )
                     if (isDrawerFocused) {
                         Text(
                             text = dest.label,
                             style = MaterialTheme.typography.titleMedium,
-                            color = if (selected) Color.White else ResColors.TextSecondary,
+                            color = when {
+                                isItemFocused -> ResColors.FocusCyan
+                                selected -> Color.White
+                                else -> ResColors.TextSecondary
+                            },
                             maxLines = 1
                         )
                     }
