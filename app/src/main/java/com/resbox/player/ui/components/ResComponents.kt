@@ -91,13 +91,13 @@ fun VodPosterCard(
             .then(sharedModifier)
             .resCardSurface(
                 shape = cardShape,
+                onClick = onClick,
                 onFocusAccentChanged = { focused ->
                     if (focused && vod.displayPoster.isNotBlank()) {
                         onFocusedPosterChanged?.invoke(vod.displayPoster)
                     }
                 }
             )
-            .clickable(onClick = onClick)
     ) {
         AsyncImage(
             model = vod.displayPoster,

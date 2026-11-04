@@ -65,6 +65,7 @@ import com.resbox.player.ui.screens.settings.SettingsRepoScreen
 import com.resbox.player.ui.screens.settings.SettingsViewModel
 import com.resbox.player.ui.theme.LocalIsTvDevice
 import com.resbox.player.ui.theme.ResColors
+import com.resbox.player.ui.theme.tvInteractiveItem
 
 enum class TopLevelDestination(
     val route: String,
@@ -399,17 +400,12 @@ private fun TvCollapsibleNavigationDrawer(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(
-                            if (selected) ResColors.PrimaryViolet.copy(alpha = 0.45f)
-                            else Color.Transparent
+                        .tvInteractiveItem(
+                            shape = RoundedCornerShape(16.dp),
+                            isSelected = selected,
+                            scaleOnFocus = 1.04f,
+                            onClick = { onNavigate(dest) }
                         )
-                        .border(
-                            width = if (selected) 2.dp else 0.dp,
-                            color = if (selected) ResColors.FocusCyan else Color.Transparent,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .clickable { onNavigate(dest) }
                         .padding(horizontal = 12.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)

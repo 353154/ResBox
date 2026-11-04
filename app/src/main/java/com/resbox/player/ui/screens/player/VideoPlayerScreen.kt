@@ -66,6 +66,7 @@ import com.resbox.player.media.kernel.VideoAspectMode
 import com.resbox.player.ui.components.FrostedGlassBar
 import com.resbox.player.ui.components.ResPillBadge
 import com.resbox.player.ui.theme.ResColors
+import com.resbox.player.ui.theme.tvInteractiveItem
 import java.util.Locale
 
 @UnstableApi
@@ -397,44 +398,99 @@ fun VideoPlayerScreen(
 
                                 // Speed cycle pill (0.5x - 3.0x)
                                 val speeds = listOf(0.5f, 1.0f, 1.25f, 1.5f, 2.0f, 3.0f)
-                                ResPillBadge(
-                                    text = "倍速 ${uiState.playbackSpeed}x",
-                                    backgroundColor = Color(0x99242E4C),
-                                    modifier = Modifier.clickable {
-                                        val nextIdx = (speeds.indexOf(uiState.playbackSpeed) + 1) % speeds.size
-                                        onSetSpeed(speeds[nextIdx])
-                                    }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = {
+                                                val nextIdx = (speeds.indexOf(uiState.playbackSpeed) + 1) % speeds.size
+                                                onSetSpeed(speeds[nextIdx])
+                                            }
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = "倍速 ${uiState.playbackSpeed}x",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Color.White
+                                    )
+                                }
 
-                                ResPillBadge(
-                                    text = if (uiState.enableDanmaku) "弹幕: 开" else "弹幕: 关",
-                                    backgroundColor = if (uiState.enableDanmaku) ResColors.PrimaryViolet else Color(0x88242E4C),
-                                    modifier = Modifier.clickable { onToggleDanmaku() }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            isSelected = uiState.enableDanmaku,
+                                            onClick = { onToggleDanmaku() }
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = if (uiState.enableDanmaku) "弹幕: 开" else "弹幕: 关",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Color.White
+                                    )
+                                }
 
-                                ResPillBadge(
-                                    text = "画面: ${uiState.aspectMode.label}",
-                                    backgroundColor = Color(0x99242E4C),
-                                    modifier = Modifier.clickable { onCycleAspectMode() }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = { onCycleAspectMode() }
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = "画面: ${uiState.aspectMode.label}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Color.White
+                                    )
+                                }
 
-                                ResPillBadge(
-                                    text = "记片头",
-                                    backgroundColor = Color(0x99242E4C),
-                                    modifier = Modifier.clickable { onMarkSkipIntro() }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = { onMarkSkipIntro() }
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = "记片头",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Color.White
+                                    )
+                                }
 
-                                ResPillBadge(
-                                    text = "记片尾",
-                                    backgroundColor = Color(0x99242E4C),
-                                    modifier = Modifier.clickable { onMarkSkipOutro() }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = { onMarkSkipOutro() }
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = "记片尾",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Color.White
+                                    )
+                                }
 
-                                ResPillBadge(
-                                    text = "切换内核",
-                                    backgroundColor = Color(0x99242E4C),
-                                    modifier = Modifier.clickable { onCycleKernelType() }
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .tvInteractiveItem(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = { onCycleKernelType() }
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Text(
+                                        text = "切换内核",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
 
@@ -446,19 +502,13 @@ fun VideoPlayerScreen(
                                     val active = epIdx == uiState.activeEpisodeIndex
                                     Box(
                                         modifier = Modifier
-                                            .clip(RoundedCornerShape(10.dp))
-                                            .background(
-                                                if (active) ResColors.PrimaryViolet
-                                                else Color(0x881A2238)
+                                            .tvInteractiveItem(
+                                                shape = RoundedCornerShape(10.dp),
+                                                isSelected = active,
+                                                onClick = {
+                                                    onSelectSourceAndEpisode(uiState.activeSourceIndex, epIdx)
+                                                }
                                             )
-                                            .border(
-                                                width = 1.dp,
-                                                color = if (active) ResColors.FocusCyan else Color.White.copy(alpha = 0.12f),
-                                                shape = RoundedCornerShape(10.dp)
-                                            )
-                                            .clickable {
-                                                onSelectSourceAndEpisode(uiState.activeSourceIndex, epIdx)
-                                            }
                                             .padding(horizontal = 12.dp, vertical = 6.dp)
                                     ) {
                                         Text(

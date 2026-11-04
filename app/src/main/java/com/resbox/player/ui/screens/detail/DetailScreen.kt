@@ -52,6 +52,7 @@ import com.resbox.player.ui.theme.ResColors
 import com.resbox.player.ui.theme.ResShimmerBox
 import com.resbox.player.ui.theme.rememberPosterAmbientPalette
 import com.resbox.player.ui.theme.resCardSurface
+import com.resbox.player.ui.theme.tvInteractiveItem
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -133,10 +134,10 @@ fun DetailScreen(
                             // Fast-Switch Speed Check Button
                             Row(
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(50))
-                                    .background(ResColors.PrimaryViolet.copy(alpha = 0.28f))
-                                    .border(1.dp, ResColors.FocusCyan, RoundedCornerShape(50))
-                                    .clickable { onFastSpeedSwitch() }
+                                    .tvInteractiveItem(
+                                        shape = RoundedCornerShape(50),
+                                        onClick = { onFastSpeedSwitch() }
+                                    )
                                     .padding(horizontal = 14.dp, vertical = 8.dp),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -271,12 +272,13 @@ fun DetailScreen(
                             if (firstEpisode != null) {
                                 Row(
                                     modifier = Modifier
-                                        .clip(RoundedCornerShape(50))
-                                        .background(ResColors.PrimaryViolet)
-                                        .resCardSurface(shape = RoundedCornerShape(50))
-                                        .clickable {
-                                            onPlayEpisode(uiState.selectedSourceIndex, firstEpisode)
-                                        }
+                                        .resCardSurface(
+                                            shape = RoundedCornerShape(50),
+                                            onClick = {
+                                                onPlayEpisode(uiState.selectedSourceIndex, firstEpisode)
+                                            }
+                                        )
+                                        .background(ResColors.PrimaryViolet, RoundedCornerShape(50))
                                         .padding(horizontal = 22.dp, vertical = 10.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -316,17 +318,11 @@ fun DetailScreen(
                             val latencyLabel = if (source.latencyMs > 0L) " • ${source.latencyMs}ms" else ""
                             Box(
                                 modifier = Modifier
-                                    .resCardSurface(shape = RoundedCornerShape(16.dp))
-                                    .background(
-                                        if (isSelected) ResColors.PrimaryViolet.copy(alpha = 0.45f)
-                                        else ResColors.ElevatedCardSurface
+                                    .tvInteractiveItem(
+                                        shape = RoundedCornerShape(16.dp),
+                                        isSelected = isSelected,
+                                        onClick = { onSelectSource(idx) }
                                     )
-                                    .border(
-                                        width = if (isSelected) 2.dp else 1.dp,
-                                        color = if (isSelected) ResColors.FocusCyan else Color.White.copy(alpha = 0.12f),
-                                        shape = RoundedCornerShape(16.dp)
-                                    )
-                                    .clickable { onSelectSource(idx) }
                                     .padding(horizontal = 18.dp, vertical = 12.dp)
                             ) {
                                 Row(
@@ -414,14 +410,13 @@ fun DetailScreen(
                             val isCurrentEp = episode.index == uiState.selectedEpisodeIndex
                             Box(
                                 modifier = Modifier
-                                    .resCardSurface(shape = RoundedCornerShape(14.dp))
-                                    .background(
-                                        if (isCurrentEp) ResColors.PrimaryViolet
-                                        else ResColors.ElevatedCardSurface
+                                    .tvInteractiveItem(
+                                        shape = RoundedCornerShape(14.dp),
+                                        isSelected = isCurrentEp,
+                                        onClick = {
+                                            onPlayEpisode(uiState.selectedSourceIndex, episode)
+                                        }
                                     )
-                                    .clickable {
-                                        onPlayEpisode(uiState.selectedSourceIndex, episode)
-                                    }
                                     .padding(horizontal = 18.dp, vertical = 11.dp),
                                 contentAlignment = Alignment.Center
                             ) {

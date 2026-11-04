@@ -19,10 +19,17 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
@@ -286,6 +293,7 @@ fun MeshGradientBackground(
  */
 fun Modifier.resCardSurface(
     shape: Shape = RoundedCornerShape(20.dp),
+    onClick: (() -> Unit)? = null,
     onFocusAccentChanged: ((Boolean) -> Unit)? = null
 ): Modifier = composed {
     var isFocused by remember { mutableStateOf(false) }
@@ -324,6 +332,87 @@ fun Modifier.resCardSurface(
             }
         }
         .focusable()
+        .onKeyEvent { keyEvent ->
+            if (keyEvent.type == KeyEventType.KeyUp &&
+                (keyEvent.key == Key.DirectionCenter || keyEvent.key == Key.Enter || keyEvent.key == Key.NumPadEnter)
+            ) {
+                onClick?.invoke()
+                true
+            } else {
+                false
+            }
+        }
+        .then(
+            if (onClick != null) {
+                Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick
+                )
+            } else Modifier
+        )
+}
+
+/**
+ * TV Item Interactive surface modifier with instant key response, dynamic focus cyan halo and selected tone.
+ */
+fun Modifier.tvInteractiveItem(
+    shape: Shape = RoundedCornerShape(12.dp),
+    isSelected: Boolean = false,
+    scaleOnFocus: Float = 1.05f,
+    onClick: (() -> Unit)? = null,
+    onFocusChanged: ((Boolean) -> Unit)? = null
+): Modifier = composed {
+    var isFocused by remember { mutableStateOf(false) }
+    val scale by animateFloatAsState(
+        targetValue = if (isFocused) scaleOnFocus else 1.0f,
+        label = "TvItemScale"
+    )
+
+    this
+        .scale(scale)
+        .onFocusChanged { state ->
+            if (isFocused != state.isFocused) {
+                isFocused = state.isFocused
+                onFocusChanged?.invoke(state.isFocused)
+            }
+        }
+        .border(
+            width = if (isFocused) 2.5.dp else if (isSelected) 1.5.dp else 1.dp,
+            color = if (isFocused) ResColors.FocusCyan
+                    else if (isSelected) ResColors.PrimaryViolet.copy(alpha = 0.85f)
+                    else Color.White.copy(alpha = 0.12f),
+            shape = shape
+        )
+        .clip(shape)
+        .background(
+            color = when {
+                isFocused -> ResColors.PrimaryViolet.copy(alpha = 0.6f)
+                isSelected -> ResColors.PrimaryViolet.copy(alpha = 0.35f)
+                else -> Color(0x77161E32)
+            },
+            shape = shape
+        )
+        .focusable()
+        .onKeyEvent { keyEvent ->
+            if (keyEvent.type == KeyEventType.KeyUp &&
+                (keyEvent.key == Key.DirectionCenter || keyEvent.key == Key.Enter || keyEvent.key == Key.NumPadEnter)
+            ) {
+                onClick?.invoke()
+                true
+            } else {
+                false
+            }
+        }
+        .then(
+            if (onClick != null) {
+                Modifier.clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                    onClick = onClick
+                )
+            } else Modifier
+        )
 }
 
 /**

@@ -61,6 +61,7 @@ import com.resbox.player.ui.theme.ResColors
 import com.resbox.player.ui.theme.ResShimmerBox
 import com.resbox.player.ui.theme.rememberPosterAmbientPalette
 import com.resbox.player.ui.theme.resCardSurface
+import com.resbox.player.ui.theme.tvInteractiveItem
 
 @Composable
 fun HomeScreen(
@@ -113,17 +114,11 @@ fun HomeScreen(
                         val selected = category.typeId == uiState.selectedCategoryId
                         Box(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(50))
-                                .background(
-                                    if (selected) ResColors.PrimaryViolet
-                                    else Color(0x881A2238)
+                                .tvInteractiveItem(
+                                    shape = RoundedCornerShape(50),
+                                    isSelected = selected,
+                                    onClick = { onSelectCategory(category.typeId) }
                                 )
-                                .border(
-                                    width = 1.dp,
-                                    color = if (selected) ResColors.FocusCyan else Color.White.copy(alpha = 0.14f),
-                                    shape = RoundedCornerShape(50)
-                                )
-                                .clickable { onSelectCategory(category.typeId) }
                                 .padding(horizontal = 18.dp, vertical = 9.dp)
                         ) {
                             Text(
@@ -136,20 +131,7 @@ fun HomeScreen(
                 }
             }
 
-            // 3. Hero Banner Card
-            uiState.heroBannerVod?.let { hero ->
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    HeroShowcaseBanner(
-                        hero = hero,
-                        onPlayNow = { onOpenVodDetail(hero.siteKey, hero.vodId) },
-                        onFocusChanged = { focused ->
-                            if (focused) onFocusedPosterChanged(hero.vodPic)
-                        }
-                    )
-                }
-            }
-
-            // 4. Continue Watching Row (if history exists)
+            // 3. Continue Watching Row (if history exists)
             if (recentHistory.isNotEmpty()) {
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     ContinueWatchingSection(
