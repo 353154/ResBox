@@ -28,8 +28,6 @@ class AdBlockHlsPlaylistParserFactory(
     private val onAdSegmentsFiltered: (filteredCount: Int) -> Unit = {}
 ) : HlsPlaylistParserFactory {
 
-    private val defaultDelegate = HlsPlaylistParserFactory { HlsPlaylistParser() }
-
     override fun createPlaylistParser(): ParsingLoadable.Parser<HlsPlaylist> {
         return SanitizingHlsPlaylistParser(
             delegate = HlsPlaylistParser(),

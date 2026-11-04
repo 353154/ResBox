@@ -49,7 +49,7 @@ class HeadlessWebSniffer @Inject constructor(
     private var activeWebView: WebView? = null
 
     private val mediaRegex = Regex(
-        pattern = "https?://[^\s\"'<>]+?\.(m3u8|mp4|flv|mpd|mkv)(\?[^\s\"'<>]*)?$",
+        pattern = """https?://[^\s"'<>]+?\.(m3u8|mp4|flv|mpd|mkv)(\?[^\s"'<>]*)?$""",
         option = RegexOption.IGNORE_CASE
     )
 

@@ -180,7 +180,7 @@ fun DetailScreen(
                         val posterModifier = if (sharedTransitionScope != null && animatedVisibilityScope != null) {
                             with(sharedTransitionScope) {
                                 Modifier.sharedElement(
-                                    state = rememberSharedContentState(key = "poster_${vod.siteKey}_${vod.vodId}"),
+                                    sharedContentState = rememberSharedContentState(key = "poster_${vod.siteKey}_${vod.vodId}"),
                                     animatedVisibilityScope = animatedVisibilityScope
                                 )
                             }
